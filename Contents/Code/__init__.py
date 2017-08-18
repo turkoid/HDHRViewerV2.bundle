@@ -1382,7 +1382,7 @@ class Devices:
         self.storageServers = []
         self.tunerDevices = []
         self.manualTuner()
-        self.autoDiscover()
+        #self.autoDiscover()
 
     # Auto Discover devices
     def autoDiscover(self):
@@ -1416,9 +1416,11 @@ class Devices:
             manualTuners = Prefs[PREFS_HDHR_IP]
             if manualTuners is not None:
                 # Only add tuners if not 'auto'
-                if manualTuners != 'auto':
+                #if manualTuners != 'auto':
                     for tunerIP in manualTuners.split():
-                        if not xany(d['LocalIP']==tunerIP for d in self.tunerDevices):
+                        if tunerIP == 'auto':
+                            self.autoDiscover()
+                        elif not xany(d['LocalIP']==tunerIP for d in self.tunerDevices):
                             self.addManualTuner(tunerIP)
                         else:
                             # self.addManualTuner(tunerIP) #test
